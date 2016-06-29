@@ -1,0 +1,38 @@
+{
+  "name": "extractors",
+  "version": "0.0.1",
+  "description": "linked data extractors",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/solid-live/extractors.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/solid-live/extractors/issues"
+  },
+  "homepage": "https://github.com/solid-live/extractors#readme",
+  "dependencies": {
+    "array-last": "^1.1.1",
+    "cron": "^1.1.0",
+    "file-exists": "^1.0.0",
+    "kue": "^0.11.1",
+    "mysql": "^2.10.2",
+    "osmosis": "^1.0.1",
+    "path": "^0.12.7",
+    "podcatcher": "^0.2.1",
+    "qpm_queue": "0.0.3",
+    "rdf-shell": "^0.1.36",
+    "rdflib": "^0.7.0",
+    "redwrap": "0.0.4",
+    "sequelize": "^3.23.2",
+    "sqlite3": "^3.1.1",
+    "uniq": "^1.0.1",
+    "wc_db": "0.0.4",
+    "x-ray": "^2.3.0"
+  }
+}
