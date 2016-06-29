@@ -1,6 +1,6 @@
 {
   "name": "extractors",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "linked data extractors",
   "main": "index.js",
   "scripts": {
@@ -15,9 +15,13 @@
   "bugs": {
     "url": "https://github.com/solid-live/extractors/issues"
   },
+  "bin": {
+    "get": "gitpay.js"
+  },
   "homepage": "https://github.com/solid-live/extractors#readme",
   "dependencies": {
     "array-last": "^1.1.1",
+    "commander": "^2.9.0",
     "cron": "^1.1.0",
     "file-exists": "^1.0.0",
     "kue": "^0.11.1",
