@@ -36,15 +36,6 @@ var convertor = {
 }
 
 
-function processGallery(uri) {
-  if (uri.indexOf('#') === -1 ) {
-    return uri
-  }
-  var arr = uri.split('/')
-  arr.pop()
-  return( arr.join('/') )
-}
-
 
 function getNextPage(ret) {
   var nextPage

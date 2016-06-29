@@ -32,16 +32,6 @@ var convertor = {
 }
 
 
-function processGallery(uri) {
-  if (uri.indexOf('#') === -1 ) {
-    return uri
-  }
-  var arr = uri.split('/')
-  arr.pop()
-  return( arr.join('/') )
-}
-
-
 function getNextPage(ret) {
   var nextPage
 
@@ -49,7 +39,7 @@ function getNextPage(ret) {
   for (var k in ret) {
     if (ret.hasOwnProperty(k)) {
       v = ret[k]
-      if (k === 'urn:string:next' ) {
+      if ( k === 'urn:string:next' ) {
         if (v && v[0]) {
           nextPage = parseInt(v[0])
         }
@@ -116,7 +106,6 @@ function extract(target) {
     })
 
   })
-
 
 }
 
