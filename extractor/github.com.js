@@ -28,8 +28,11 @@ var count     = 1
 
 
 var convertor = {
-  'http://purl.org/dc/terms/title' : ['title'],
-  'urn:string:vcard' : ['.vcard-detail']
+  'http://schema.org/address' : ['[itemprop=homeLocation]'],
+  'http://purl.org/dc/dcam/memberOf' : ['[itemprop=worksFor]'],
+  'http://www.w3.org/2000/01/rdf-schema#seeAlso' : ['[itemprop=url]'],
+  'http://purl.org/dc/terms/created' : ['.join-date'],
+  'http://xmlns.com/foaf/0.1/mbox' : ['[itemprop=email]']
 }
 
 
@@ -87,6 +90,9 @@ function extract(target) {
               debug(v)
               if (k === 'urn:string:next') {
                 continue
+              }
+              if (k === 'http://xmlns.com/foaf/0.1/mbox') {
+                v[0] = 'mailto:' + v[0]
               }
               debug('end')
               turtle += solidbot.toTurtle(k, v, base)
