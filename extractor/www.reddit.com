@@ -29,6 +29,7 @@ var count     = 1
 
 var convertor = {
   'urn:string:headline' : ['///div[2]/p[1]/a'],
+  'urn:string:link' : ['.title@href'],
   'urn:string:next' : ['[rel="nofollow next"]@href']
 }
 
