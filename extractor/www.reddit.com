@@ -21,7 +21,7 @@ var base      = url.parse(target).hostname
 var interval  = 2
 var page      = 1
 var nextPage  = 1
-var uri       = target + page
+var uri       = target
 var turtle    = ''
 var goAgain   = true
 var count     = 1
@@ -29,7 +29,7 @@ var count     = 1
 
 var convertor = {
   'urn:string:headline' : ['///div[2]/p[1]/a'],
-  'urn:string:next' : ['.next']
+  'urn:string:next' : ['[rel="nofollow next"]@href']
 }
 
 
@@ -43,7 +43,7 @@ function getNextPage(ret) {
       v = ret[k]
       if (k === 'urn:string:next' ) {
         if (v && v[0]) {
-          nextPage = parseInt(v[0])
+          nextPage = (v[0])
         }
       }
     }
@@ -54,7 +54,9 @@ function getNextPage(ret) {
 }
 
 
-function extract(target) {
+function extract(target, pages) {
+
+  pages = pages || 1
 
   return new Promise(function (res, rej) {
     qpm_queue.promiseWhile(function() {
@@ -63,7 +65,7 @@ function extract(target) {
       return new Promise(function(resolve, reject) {
         count++
         //var uri = target + nextPage
-        var uri = target
+        //var uri = target
         debug(uri)
         solidbot.getPage(uri, convertor, interval)
         .then(function(ret) {
@@ -91,11 +93,11 @@ function extract(target) {
           nextPage = getNextPage(ret)
           debug('page', page)
           debug('nextPage', nextPage)
-          if (nextPage && !isNaN(parseInt(nextPage)) && nextPage === (page + 1)  && count < MAX_PAGES ) {
+          if (nextPage && nextPage.indexOf('http' === 0) && count <= pages  && count < MAX_PAGES ) {
             debug('goAgain')
             page = nextPage
             goAgain = true
-            uri = target + nextPage
+            uri = nextPage
             resolve()
           } else {
             goAgain = false

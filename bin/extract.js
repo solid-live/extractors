@@ -18,6 +18,7 @@ function bin(argv) {
   commander
   .option('-O, --output [file]', 'Output location')
   .option('-e, --extractor [file]', 'Output location')
+  .option('-p, --pages [num]', 'Number of pages')
   .option('-m, --media', 'Extract media')
   .parse(argv)
 
@@ -39,8 +40,9 @@ function bin(argv) {
 
   }
 
+  var pages = commander.pages || 1
 
-  var turtle = extract(uri).then(function (turtle) {
+  var turtle = extract(uri, pages).then(function (turtle) {
     var path = commander.output
     if (path) {
       fs.writeFileSync(path, turtle)
