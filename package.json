@@ -1,6 +1,6 @@
 {
   "name": "extractors",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "linked data extractors",
   "main": "index.js",
   "scripts": {
@@ -33,6 +33,7 @@
     "rdf-shell": "^0.1.36",
     "rdflib": "^0.7.0",
     "redwrap": "0.0.4",
+    "request": "^2.74.0",
     "sequelize": "^3.23.2",
     "sqlite3": "^3.1.1",
     "uniq": "^1.0.1",
