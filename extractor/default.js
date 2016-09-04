@@ -11,8 +11,6 @@ var url = require('url')
 // globals
 var MAX_PAGES = 1000
 
-var target = process.argv[2] || 'https://github.com/timbl/'
-var base = url.parse(target).hostname
 var interval = 2
 var page = 1
 var nextPage = 1
@@ -53,6 +51,8 @@ function getNextPage (ret) {
  * @return {string}        the extracted turtle
  */
 function extract (target) {
+  var base = url.parse(target).hostname
+
   return new Promise(function (res, rej) {
     qpmQueue.promiseWhile(function () {
       return goAgain
@@ -105,9 +105,10 @@ function extract (target) {
 }
 
 function bin (argv) {
-  target = argv[2]
+  var target = argv[2] || 'https://github.com/timbl/'
+  var pages  = argv[3] || 1
 
-  var turtle = extract(target).then(function (turtle) {
+  var turtle = extract(target, pages).then(function (turtle) {
     console.log(turtle)
   })
 }

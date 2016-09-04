@@ -17,6 +17,7 @@ function bin (argv) {
     .parse(argv)
 
   var uri = commander.args[0] || 'https://github.com/timbl/'
+  var media = commander.media
   debug('uri', uri)
 
   var extractor = commander.extractor
