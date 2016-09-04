@@ -2,28 +2,22 @@
 
 module.exports = bin
 
-
 // requires
 var commander = require('commander')
-var debug     = require('debug')('extractors:extract')
-var fs        = require('fs')
-var url       = require('url')
+var debug = require('debug')('extractors:extract')
+var fs = require('fs')
+var url = require('url')
 
-
-
-
-
-function bin(argv) {
-
+function bin (argv) {
   commander
-  .option('-O, --output [file]', 'Output location')
-  .option('-e, --extractor [file]', 'Output location')
-  .option('-p, --pages [num]', 'Number of pages')
-  .option('-m, --media', 'Extract media')
-  .parse(argv)
+    .option('-O, --output [file]', 'Output location')
+    .option('-e, --extractor [file]', 'Output location')
+    .option('-p, --pages [num]', 'Number of pages')
+    .option('-m, --media', 'Extract media')
+    .parse(argv)
 
-  uri = commander.args[0] || 'https://github.com/timbl/'
-
+  var uri = commander.args[0] || 'https://github.com/timbl/'
+  debug('uri', uri)
 
   var extractor = commander.extractor
   var extract
@@ -37,12 +31,11 @@ function bin(argv) {
     } catch (e) {
       extract = require('../extractor/default')
     }
-
   }
 
   var pages = commander.pages || 1
 
-  var turtle = extract(uri, pages).then(function (turtle) {
+  extract(uri, pages).then(function (turtle) {
     var path = commander.output
     if (path) {
       fs.writeFileSync(path, turtle)
@@ -50,11 +43,9 @@ function bin(argv) {
       console.log(turtle)
     }
   })
-
 }
-
 
 // If one import this file, this is a module, otherwise a library
 if (require.main === module) {
-  bin(process.argv);
+  bin(process.argv)
 }
