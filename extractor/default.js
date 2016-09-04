@@ -24,6 +24,11 @@ var convertor = {
   'http://purl.org/dc/terms/title': ['title']
 }
 
+/**
+ * gets the next page
+ * @param  {object} ret return object
+ * @return {number}     the next page
+ */
 function getNextPage (ret) {
   var nextPage
 
@@ -42,6 +47,11 @@ function getNextPage (ret) {
   return nextPage
 }
 
+/**
+ * extract linked data
+ * @param  {string} target the target uri
+ * @return {string}        the extracted turtle
+ */
 function extract (target) {
   return new Promise(function (res, rej) {
     qpmQueue.promiseWhile(function () {
