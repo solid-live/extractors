@@ -3,8 +3,9 @@
 module.exports = bin
 
 // requires
-var commander = require('commander')
 var debug = require('debug')('extractors:extract')
+var commander = require('commander')
+var extractors = require('../')
 var fs = require('fs')
 var url = require('url')
 
@@ -18,6 +19,7 @@ function bin (argv) {
 
   var uri = commander.args[0] || 'https://github.com/timbl/'
   var media = commander.media
+  var output = commander.output
   debug('uri', uri)
 
   var extractor = commander.extractor
@@ -36,14 +38,28 @@ function bin (argv) {
 
   var pages = commander.pages || 1
 
-  extract(uri, pages, media).then(function (turtle) {
-    var path = commander.output
-    if (path) {
-      fs.writeFileSync(path, turtle)
+  if (media) {
+    if (!uri || !output) {
+      console.error('output and uri requires')
     } else {
-      console.log(turtle)
+      extractors.downloadMedia(uri, output, function (err) {
+        if (err) {
+          console.error(err)
+        } else {
+          console.log('extracted', uri, output)
+        }
+      })
     }
-  })
+  } else {
+    extract(uri, pages, media).then(function (turtle) {
+      var path = commander.output
+      if (path) {
+        fs.writeFileSync(path, turtle)
+      } else {
+        console.log(turtle)
+      }
+    })
+  }
 }
 
 // If one import this file, this is a module, otherwise a library
