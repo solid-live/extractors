@@ -57,7 +57,11 @@ function bin (argv) {
       if (err) {
         console.error(err)
       } else {
-        console.log('extracted', result, output)
+        if (output) {
+          fs.writeFileSync(output, result)
+        } else {
+          console.log(result)
+        }
       }
     })
   } else {
