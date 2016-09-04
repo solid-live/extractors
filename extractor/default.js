@@ -2,44 +2,36 @@
 
 module.exports = extract
 
-
 // requires
-var commander = require('commander')
-var debug     = require('debug')('extractors:default')
-var qpm_queue = require('qpm_queue')
-var osmosis   = require('osmosis')
-var solidbot  = require('../')
-var uniq      = require('uniq')
-var url       = require('url')
-
+var debug = require('debug')('extractors:default')
+var qpmQueue = require('qpm_queue')
+var solidbot = require('../')
+var url = require('url')
 
 // globals
 var MAX_PAGES = 1000
 
-var target    = process.argv[2] || 'https://github.com/timbl/'
-var base      = url.parse(target).hostname
-var interval  = 2
-var page      = 1
-var nextPage  = 1
-var uri       = target + page
-var turtle    = ''
-var goAgain   = true
-var count     = 1
-
+var target = process.argv[2] || 'https://github.com/timbl/'
+var base = url.parse(target).hostname
+var interval = 2
+var page = 1
+var nextPage = 1
+var turtle = ''
+var goAgain = true
+var count = 1
 
 var convertor = {
-  'http://purl.org/dc/terms/title' : ['title'],
+  'http://purl.org/dc/terms/title': ['title']
 }
 
-
-function getNextPage(ret) {
+function getNextPage (ret) {
   var nextPage
 
   // process the data
   for (var k in ret) {
     if (ret.hasOwnProperty(k)) {
-      v = ret[k]
-      if ( k === 'urn:string:next' ) {
+      var v = ret[k]
+      if (k === 'urn:string:next') {
         if (v && v[0]) {
           nextPage = parseInt(v[0])
         }
@@ -48,30 +40,26 @@ function getNextPage(ret) {
   }
   debug('nextpage', nextPage)
   return nextPage
-
 }
 
-
-function extract(target) {
-
+function extract (target) {
   return new Promise(function (res, rej) {
-    qpm_queue.promiseWhile(function() {
+    qpmQueue.promiseWhile(function () {
       return goAgain
-    }, function() {
-      return new Promise(function(resolve, reject) {
+    }, function () {
+      return new Promise(function (resolve, reject) {
         count++
-        //var uri = target + nextPage
+        // var uri = target + nextPage
         var uri = target
         debug(uri)
         solidbot.getPage(uri, convertor, interval)
-        .then(function(ret) {
-
+        .then(function (ret) {
           debug('ret', ret)
 
           // process the data
           for (var k in ret) {
             if (ret.hasOwnProperty(k)) {
-              v = ret[k]
+              var v = ret[k]
               debug(k)
               debug(v)
               if (k === 'urn:string:next') {
@@ -86,7 +74,7 @@ function extract(target) {
           nextPage = getNextPage(ret)
           debug('page', page)
           debug('nextPage', nextPage)
-          if (nextPage && !isNaN(parseInt(nextPage)) && nextPage === (page + 1)  && count < MAX_PAGES ) {
+          if (nextPage && !isNaN(parseInt(nextPage)) && nextPage === (page + 1) && count < MAX_PAGES) {
             debug('goAgain')
             page = nextPage
             goAgain = true
@@ -96,21 +84,17 @@ function extract(target) {
             goAgain = false
             resolve()
           }
-
         })
       })
-    }).then(function() {
+    }).then(function () {
       // finally
       var unique = solidbot.sortUnique(turtle)
       res(unique)
     })
-
   })
-
 }
 
-
-function bin(argv) {
+function bin (argv) {
   target = argv[2]
 
   var turtle = extract(target).then(function (turtle) {
@@ -118,8 +102,7 @@ function bin(argv) {
   })
 }
 
-
 // If one import this file, this is a module, otherwise a library
 if (require.main === module) {
-  bin(process.argv);
+  bin(process.argv)
 }

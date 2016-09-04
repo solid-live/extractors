@@ -35,7 +35,7 @@ function bin (argv) {
 
   var pages = commander.pages || 1
 
-  extract(uri, pages).then(function (turtle) {
+  extract(uri, pages, media).then(function (turtle) {
     var path = commander.output
     if (path) {
       fs.writeFileSync(path, turtle)
