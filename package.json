@@ -1,6 +1,6 @@
 {
   "name": "extractors",
-  "version": "0.0.25",
+  "version": "0.0.26",
   "description": "linked data extractors",
   "main": "index.js",
   "scripts": {

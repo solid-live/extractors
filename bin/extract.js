@@ -15,9 +15,11 @@ function bin (argv) {
     .option('-e, --extractor [file]', 'Output location')
     .option('-p, --pages [num]', 'Number of pages')
     .option('-m, --media', 'Extract media')
+    .option('-d, --document', 'Extract document')
     .parse(argv)
 
   var uri = commander.args[0] || 'https://github.com/timbl/'
+  var document = commander.document
   var media = commander.media
   var output = commander.output
   debug('uri', uri)
@@ -50,6 +52,14 @@ function bin (argv) {
         }
       })
     }
+  } else if (document) {
+    extractors.downloadDocument(uri, function (err, result) {
+      if (err) {
+        console.error(err)
+      } else {
+        console.log('extracted', result, output)
+      }
+    })
   } else {
     extract(uri, pages, media).then(function (turtle) {
       var path = commander.output
